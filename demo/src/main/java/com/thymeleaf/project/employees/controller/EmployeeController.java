@@ -67,4 +67,26 @@ public class EmployeeController {
 		empService.deleteEmployee(id);
 		return "redirect:/";
 	}
+
+
+	@GetMapping("/calculateAge")
+	@ResponseBody
+	public String calculateAge(@RequestParam("date") String selectedDate) {
+        try {
+        	
+            LocalDate birthDate = LocalDate.parse(selectedDate);
+            
+            LocalDate currentDate = LocalDate.now();
+            
+            int age = Period.between(birthDate, currentDate).getYears();
+          
+            if(age<18) {
+            	
+            	throw new Exception();
+            }
+            return String.valueOf(age);
+        } catch (Exception e) {
+            return "0";
+        }
+    } 
 }
